@@ -47,6 +47,7 @@ services:
     depends_on:
       - ccd-api-gateway
       - ccd-data-store-api
+    restart: always
     networks:
       - ccd-network
 

@@ -59,6 +59,7 @@ services:
         condition: service_started
       ccd-user-profile-api:
         condition: service_started
+    restart: always
     networks:
       - ccd-network
 
@@ -116,6 +117,7 @@ services:
         condition: service_started
       ccd-definition-store-api:
         condition: service_started
+    restart: always
     networks:
       - ccd-network
 
