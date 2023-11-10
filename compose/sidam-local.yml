@@ -18,10 +18,10 @@ services:
   shared-db:
     ports:
       - 5432:5432
-  smtp-server:
-    ports:
-      - 1025:1025
-      - 8025:8025
+  # smtp-server:
+  #   ports:
+  #     - 1025:1025
+  #     - 8025:8025
   idam-api:
     ports:
       - 5000:5000

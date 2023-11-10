@@ -20,8 +20,8 @@ services:
         condition: service_started
   shared-db:
     image: hmctsprivate.azurecr.io/idam/shared-db:latest
-  smtp-server:
-    image: mailhog/mailhog
+  # smtp-server:
+  #   image: mailhog/mailhog
   idam-api:
     image: hmctspublic.azurecr.io/idam/api:stable
     depends_on:
