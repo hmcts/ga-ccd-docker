@@ -19,7 +19,7 @@ services:
       SERVICES_PAYMENTS_URL: http://wiremock:8080
       SERVICES_EM_ANNO_API: http://ccd-api-gateway:3453
       SERVICES_CCD_COMPONENT_API: http://ccd-api-gateway:3453
-      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api:4452
+      SERVICES_CCD_DATA_STORE_API: http://${HOST_MACHINE_IP}:4452
       SERVICES_IDAM_API_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       SERVICES_IDAM_CLIENT_ID: "${BEFTA_OAUTH2_CLIENT_ID_OF_XUIWEBAPP:-xuiwebapp}"
       SERVICES_IDAM_LOGIN_URL: "${IDAM_STUB_LOCALHOST:-http://localhost:5000}"
@@ -35,7 +35,7 @@ services:
       SERVICES_PRD_API: http://${HOST_MACHINE_IP}:8090
       
       HEALTH_CCD_COMPONENT_API: http://ccd-api-gateway:3453/health
-      HEALTH_CCD_DATA_API: http://ccd-data-store-api:4452/health
+      HEALTH_CCD_DATA_API: http://${HOST_MACHINE_IP}:4452/health
 
       APPINSIGHTS_INSTRUMENTATIONKEY: TESTVAR
       IDAM_SECRET: "${BEFTA_OAUTH2_CLIENT_SECRET_OF_XUIWEBAPP:-OOOOOOOOOOOOOOOO}"
@@ -46,7 +46,7 @@ services:
       - 3455:3000
     depends_on:
       - ccd-api-gateway
-      - ccd-data-store-api
+      # - ccd-data-store-api
       - rse-idam-simulator
     networks:
       - ccd-network
