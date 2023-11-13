@@ -3,56 +3,57 @@ version: '2.4'
 #add non core CCD services here
 
 services:
-  rd-professional-api:
-    image: hmctspublic.azurecr.io/rd/professional-api:latest
-    container_name: rd-professional-api
-    environment:
-      POSTGRES_USERNAME: "${DB_USERNAME}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      POSTGRES_HOST: ccd-shared-database
-      POSTGRES_PORT: 5432
-      S2S_URL: http://service-auth-provider-api:8080
-      USER_PROFILE_URL: http://rd-user-profile-api:5602
-      OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
-      OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
-      IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-      CCD_URL: http://ccd-user-profile-api:4453
-      AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-      LAUNCH_DARKLY_ENV: aat
-    healthcheck:
-      interval: 10s
-      timeout: 10s
-      retries: 10
-    ports:
-      - 5601:8090
-    depends_on:
-      - ccd-shared-database
-    networks:
-      - ccd-network
+  # rd-professional-api:
+  #   image: hmctspublic.azurecr.io/rd/professional-api:latest
+  #   container_name: rd-professional-api
+  #   environment:
+  #     POSTGRES_USERNAME: "${DB_USERNAME}"
+  #     POSTGRES_PASSWORD: "${DB_PASSWORD}"
+  #     POSTGRES_HOST: ccd-shared-database
+  #     POSTGRES_PORT: 5432
+  #     S2S_URL: http://service-auth-provider-api:8080
+  #     # USER_PROFILE_URL: http://rd-user-profile-api:5602
+  #     USER_PROFILE_URL: http://${HOST_MACHINE_IP}:5602
+  #     OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
+  #     OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
+  #     IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+  #     CCD_URL: http://ccd-user-profile-api:4453
+  #     AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+  #     LAUNCH_DARKLY_ENV: aat
+  #   healthcheck:
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 10
+  #   ports:
+  #     - 5601:8090
+  #   depends_on:
+  #     - ccd-shared-database
+  #   networks:
+  #     - ccd-network
 
-  rd-user-profile-api:
-    image: hmctspublic.azurecr.io/rd/user-profile-api:latest
-    container_name: rd-user-profile-api
-    environment:
-      POSTGRES_USERNAME: "${DB_USERNAME}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      POSTGRES_HOST: ccd-shared-database
-      POSTGRES_PORT: 5432
-      CCD_URL: http://ccd-user-profile-api:4453
-      OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
-      OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
-      IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-      AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-    healthcheck:
-      interval: 10s
-      timeout: 10s
-      retries: 10
-    ports:
-      - 5602:8090
-    depends_on:
-      - ccd-shared-database
-    networks:
-      - ccd-network
+  # rd-user-profile-api:
+  #   image: hmctspublic.azurecr.io/rd/user-profile-api:latest
+  #   container_name: rd-user-profile-api
+  #   environment:
+  #     POSTGRES_USERNAME: "${DB_USERNAME}"
+  #     POSTGRES_PASSWORD: "${DB_PASSWORD}"
+  #     POSTGRES_HOST: ccd-shared-database
+  #     POSTGRES_PORT: 5432
+  #     CCD_URL: http://ccd-user-profile-api:4453
+  #     OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
+  #     OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
+  #     IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+  #     AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+  #   healthcheck:
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 10
+  #   ports:
+  #     - 5602:8090
+  #   depends_on:
+  #     - ccd-shared-database
+  #   networks:
+  #     - ccd-network
 
   # am-org-role-mapping-service:
   #   image: hmctspublic.azurecr.io/am/org-role-mapping-service:latest
