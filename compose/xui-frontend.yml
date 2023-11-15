@@ -48,6 +48,7 @@ services:
       - ccd-api-gateway
       # - ccd-data-store-api
       - rse-idam-simulator
+    restart: always
     networks:
       - ccd-network
 
