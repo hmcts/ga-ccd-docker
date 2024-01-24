@@ -4,7 +4,8 @@ version: '2.4'
 
 services:
   rd-professional-api:
-    image: hmctspublic.azurecr.io/rd/professional-api:latest
+    image: hmctspublic.azurecr.io/rd/professional-api:pr-1542 # ga-master
+    # image: localdebug_rd-professional-api:latest
     container_name: rd-professional-api
     environment:
       POSTGRES_USERNAME: "${DB_USERNAME}"
@@ -12,21 +13,25 @@ services:
       POSTGRES_HOST: ccd-shared-database
       POSTGRES_PORT: 5432
       S2S_URL: http://service-auth-provider-api:8080
-      USER_PROFILE_URL: http://rd-user-profile-api:5602
+      USER_PROFILE_URL: http://rd-user-profile-api:8091
       OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
       OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
       IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       CCD_URL: http://ccd-user-profile-api:4453
       AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       LAUNCH_DARKLY_ENV: aat
+      LD_SDK_KEY: sdk-b1310c4a-e522-4512-9e68-d75d23b04c5dp
       ACCOUNT_NAME: devstoreaccount1 # dummy value
       ACCOUNT_KEY: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # dummy value
+      PROFESSIONAL_API_S2S_SECRET: "${IDAM_KEY_CCD_GATEWAY}"
+      # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     ports:
-      - 5601:8090
+      - 8090:8090
+      # - 5005:5005
     depends_on:
       - ccd-shared-database
     networks:
@@ -45,12 +50,16 @@ services:
       OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
       IDAM_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+      S2S_URL: http://service-auth-provider-api:8080
+      USER_PROFILE_API_S2S_SECRET: "${IDAM_KEY_CCD_GATEWAY}"
+      # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006'
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     ports:
-      - 5602:8090
+      - 8091:8091
+      # - 5006:5006
     depends_on:
       - ccd-shared-database
     networks:

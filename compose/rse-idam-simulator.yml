@@ -3,7 +3,8 @@ version: "3"
 
 services:
   rse-idam-simulator:
-    image: "hmctspublic.azurecr.io/hmcts/rse/rse-idam-simulator:latest"
+    # image: "hmctspublic.azurecr.io/hmcts/rse/rse-idam-simulator:latest"
+    image: "rse-idam-local:latest" #from update-user-endpoint branch
     container_name: rse-idam-simulator
     user: root
     ports:

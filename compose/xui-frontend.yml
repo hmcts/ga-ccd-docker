@@ -49,6 +49,61 @@ services:
     networks:
       - ccd-network
 
+  xui-manage-org:
+    image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+    environment:
+      IDAM_API_SERVICE: http://rse-idam-simulator:5000
+      IDAM_WEB_SERVICE: "${IDAM_STUB_LOCALHOST:-http://localhost:5000}"
+      RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api:8090
+      S2S_SERVICE: http://service-auth-provider-api:8080
+      SYSTEM_USER_NAME: "dummy"
+      SYSTEM_USER_PASSWORD: "dummy"
+      FEE_AND_PAY_API: http://payment-api-aat.service.core-compute-aat.internal
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api:4452
+      # ACA_SERVICE_API_BASEURL: http://manage-case-assignment:4454
+      # SERVICES_MCA_PROXY_API: http://manage-case-assignment:4454
+      SERVICES_IDAM_ISS_URL: http://fr-am:8080/openam/oauth2/realms/root/realms/hmcts
+      APPINSIGHTS_INSTRUMENTATIONKEY: "AAAAAAAAAAAAAAAC"
+      IDAM_SECRET: "${BEFTA_OAUTH2_CLIENT_SECRET_OF_XUIWEBAPP:-OOOOOOOOOOOOOOOO}"
+      S2S_SECRET: "${BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP:-OOOOOOOOOOOOOOOO}"
+      LAUNCH_DARKLY_CLIENT_ID: "${XUI_LAUNCH_DARKLY_CLIENT_ID:-1}"
+      APPINSIGHTS_INSTRUMENTATIONKEY_MO: "AAAAAAAAAAAAAAAC"
+      MO_S2S_CLIENT_SECRET: "AAAAAAAAAAAAAAAA"
+      GOOGLE_ANALYTICS_KEY: "AAAAAAAAAAAAAAAC"
+      REDISCLOUD_URL: "AAAAAAAAAAAAAAAC"
+      NODE_CONFIG_ENV: local
+      IDAM_CLIENT: xui_mo_webapp
+      MICROSERVICE: xui_webapp
+      OAUTH_CALLBACK_URL: /oauth2/callback
+      LOGIN_ROLE_MATCHER:
+      PROTOCOL: "http"
+      SERVICES_TERMS_AND_CONDITIONS_API_SERVICE:
+      MANAGE_CASE_LINK:
+      MANAGE_ORG_LINK:
+      SESSION_SECRET:
+      CASE_TYPES: "BEFTA_CASETYPE_1_1"
+      FEATURE_APP_INSIGHTS_ENABLED: "false"
+      FEATURE_PROXY_ENABLED: "false"
+      FEATURE_SECURE_COOKIE_ENABLED: "false"
+      FEATURE_TERMS_AND_CONDITIONS_ENABLED: "false"
+      FEATURE_HELMET_ENABLED: "false"
+      FEATURE_REDIS_ENABLED: "false"
+      FEATURE_OIDC_ENABLED: "false"
+      LOGGING: debug
+      PORT: 3001
+#    links:
+#      - manage-case-assignment
+#      - idam-web-admin
+    ports:
+#      - 4456:4456
+      - 3001:3001
+    depends_on:
+      - ccd-data-store-api
+      - rse-idam-simulator
+#      - idam-web-admin
+    networks:
+      - ccd-network
+
 networks:
   ccd-network:
     external: true
