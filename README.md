@@ -28,6 +28,7 @@ docker network rm $(docker network ls -q)
 ```
 
 ### STEPS
+**Ensure you are on F5 VPN**
 
 #### 1. checkout 
 checkout ga-ccd-docker from https://github.com/hmcts/ga-ccd-docker
@@ -48,6 +49,13 @@ echo $DB_USERNAME
 should return **ccd** 
 
 if this returns blank (3) has not worked
+
+#### 3.1
+If needed checkut rse-idam-simulator branch update-user-endpoint and build by:
+
+```bash
+./gradlew assemble && docker build . --tag rse-idam-local:latest
+```
 
 #### 4. build and run
 ```bash
@@ -131,6 +139,8 @@ update the ccd-definition-store-api image you may be using in the backend.yml, t
 ```bash
 ./bin/ccd-import-definition.sh /home/sanjay/Downloads/CCD_BEFTA_JURISDICTION1.xlsx
 ```
+Mac users may need to use full path
+If this does not work, do a compose down, then delete all volumes, then comptinue the steps from the compose up -d
 
 ### HELPER connect to local db
 eg ccd_data (the ccd-data-store)

@@ -50,7 +50,7 @@ services:
       - ccd-network
 
   xui-manage-org:
-    image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+    image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1239 # master ga/ogd branch
     environment:
       IDAM_API_SERVICE: http://rse-idam-simulator:5000
       IDAM_WEB_SERVICE: "${IDAM_STUB_LOCALHOST:-http://localhost:5000}"
