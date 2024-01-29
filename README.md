@@ -154,6 +154,127 @@ eg ccd_data (the ccd-data-store)
 |   user    |    ccd     |
 |    pwd    | Pa55word11 |
 
+#### 7. HELPER - setup new org with users on local
+eg. where **befta.org.1@gmail.com** is the org admin and **befta.caseworker.1AAA@gmail.com** is an additional user in that org
+1. get User and Service Tokens
+```bash
+./bin/utils/idam-user-token.sh befta.org.1@gmail.com Pa55word11
+./bin/utils/lease-service-token.sh rd_professional_api
+```
+
+2. Create org with superuser (admin)
+
+_BearerT/Service=befta.org.1@gmail.com/rd_professional_api_
+```
+POST localhost:8090/refdata/external/v1/organisations
+{
+  "name": "SolicitorOrg1",
+  "status": "PENDING",
+  "statusMessage": "SRA1234562134",
+  "sraId": "string",
+  "sraRegulated": "false",
+  "companyNumber": "W99999W",
+  "companyUrl": "www.null.com",
+  "superUser": {
+    "firstName": "Befta",
+    "lastName": "Org1Admin",
+    "email": "befta.org.1@gmail.com"
+  },
+  "paymentAccount": [
+    "PBA1234567"
+  ],
+  "contactInformation": [
+    {
+    "uprn": "string",
+    "addressLine1": "addressLine1",
+    "addressLine2": "addressLine2",
+    "addressLine3": "addressLine3",
+    "townCity": "Town",
+    "county": "County",
+    "country": "Country",
+    "postCode": "HA1 4ET",
+    "dxAddress": [
+      {
+      "dxNumber": "dxNumber",
+      "dxExchange": "dxExchange"
+      }
+    ]
+  }
+  ],
+  "orgType": "SOLICITOR_ORG"
+}
+```
+This will return a new Org identifier **<ORG_ID>**
+
+
+3. Update org to make active
+./bin/utils/idam-user-token.sh local-prd-admin@gmail.com Pa55word11
+
+_BearerT/Service=local-prd-admin@gmail.com/rd_professional_api_
+
+```
+PUT localhost:8090/refdata/internal/v1/organisations/<ORG_ID>
+```
+
+with same body as above POST except with 
+```
+"status":"ACTIVE"
+```
+
+4. add user to org
+BearerT/Service=local-prd-admin@gmail.com/rd_professional_api
+```
+POST localhost:8090/refdata/internal/v1/organisations/<ORG_ID>/users/
+{
+  "firstName": "Befta",
+  "lastName": "org1CaseworkerAAA",
+  "email": "befta.caseworker.1AAA@gmail.com",
+  "roles": [
+    "caseworker","caseworker-befta_jurisdiction_1"
+  ],
+  "resendInvite": false
+}
+```
+This will return a new Org identifier **<USER_ID>**
+
+And create the new user in idam
+
+5. Update scripts for the org admin user
+
+```
+ORG_ADMIN_ID=(./bin/utils/idam-get-user.sh befta.org.1@gmail.com | jq -r '.id')
+```
+```
+update dbrefdata.professional_user
+set user_identifier = <ORG_ADMIN_ID>
+where email_address = befta.org.1@gmail.com
+```
+
+```
+update dbuserprofile.user_profile
+set idam_id = <ORG_ADMIN_ID>, idam_status = 'ACTIVE'
+where email_address = befta.org.1@gmail.com
+```
+
+6. Update scripts for additional users
+```
+ORG_USER_ID=(./bin/utils/idam-get-user.sh befta.caseworker.1AAA@gmail.com | jq -r '.id')
+```
+
+```
+update dbrefdata.professional_user
+set user_identifier = <ORG_USER_ID>
+where email_address = befta.caseworker.1AAA@gmail.com
+```
+
+```
+update dbuserprofile.user_profile
+set idam_id = befta.caseworker.1AAA@gmail.com, idam_status = 'ACTIVE'
+where email_address = befta.caseworker.1AAA@gmail.com
+```
+
+7. Repeat 6 for any new users needed
+
 
 
 **xxxxxxxxxx---END OF GROUP ACCESS SETUP---xxxxxxxxxx**
