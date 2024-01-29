@@ -154,38 +154,42 @@ eg ccd_data (the ccd-data-store)
 |   user    |    ccd     |
 |    pwd    | Pa55word11 |
 
-#### 7. HELPER - setup new org with users on local
+#### 8. HELPER - setup new org with users on local
 eg. where **befta.org.1@gmail.com** is the org admin and **befta.caseworker.1AAA@gmail.com** is an additional user in that org
-1. get User and Service Tokens
+1. get User and Service Tokens - 
+in script below: service/org admin user/local prd amin (this is an internal prd superuser)
 ```bash
-./bin/utils/idam-user-token.sh befta.org.1@gmail.com Pa55word11
 ./bin/utils/lease-service-token.sh rd_professional_api
+./bin/utils/idam-user-token.sh befta.org.1@gmail.com Pa55word11
+./bin/utils/idam-user-token.sh local-prd-admin@gmail.com Pa55word11
 ```
 
 2. Create org with superuser (admin)
 
-_BearerT/Service=befta.org.1@gmail.com/rd_professional_api_
+**Beware** - the name, companyNumber, paymentAccount have to be unique
+
+using _BearerT/Service=befta.org.1@gmail.com/rd_professional_api_
 ```
 POST localhost:8090/refdata/external/v1/organisations
 {
   "name": "SolicitorOrg1",
   "status": "PENDING",
-  "statusMessage": "SRA1234562134",
+  "statusMessage": "SRA1234561111",
   "sraId": "string",
   "sraRegulated": "false",
-  "companyNumber": "W99999W",
-  "companyUrl": "www.null.com",
+  "companyNumber": "W11111W",
+  "companyUrl": "www.org1.com",
   "superUser": {
     "firstName": "Befta",
     "lastName": "Org1Admin",
     "email": "befta.org.1@gmail.com"
   },
   "paymentAccount": [
-    "PBA1234567"
+    "PBA1234561"
   ],
   "contactInformation": [
     {
-    "uprn": "string",
+    "uprn": "UPRN",
     "addressLine1": "addressLine1",
     "addressLine2": "addressLine2",
     "addressLine3": "addressLine3",
@@ -210,7 +214,7 @@ This will return a new Org identifier **<ORG_ID>**
 3. Update org to make active
 ./bin/utils/idam-user-token.sh local-prd-admin@gmail.com Pa55word11
 
-_BearerT/Service=local-prd-admin@gmail.com/rd_professional_api_
+using _BearerT/Service=local-prd-admin@gmail.com/rd_professional_api_
 
 ```
 PUT localhost:8090/refdata/internal/v1/organisations/<ORG_ID>
@@ -222,7 +226,8 @@ with same body as above POST except with
 ```
 
 4. add user to org
-BearerT/Service=local-prd-admin@gmail.com/rd_professional_api
+
+using BearerT/Service=local-prd-admin@gmail.com/rd_professional_api
 ```
 POST localhost:8090/refdata/internal/v1/organisations/<ORG_ID>/users/
 {
@@ -246,14 +251,14 @@ ORG_ADMIN_ID=(./bin/utils/idam-get-user.sh befta.org.1@gmail.com | jq -r '.id')
 ```
 ```
 update dbrefdata.professional_user
-set user_identifier = <ORG_ADMIN_ID>
-where email_address = befta.org.1@gmail.com
+set user_identifier = '<ORG_ADMIN_ID>'
+where email_address = 'befta.org.1@gmail.com'
 ```
 
 ```
 update dbuserprofile.user_profile
-set idam_id = <ORG_ADMIN_ID>, idam_status = 'ACTIVE'
-where email_address = befta.org.1@gmail.com
+set idam_id = '<ORG_ADMIN_ID>', idam_status = 'ACTIVE'
+where email_address = 'befta.org.1@gmail.com'
 ```
 
 6. Update scripts for additional users
@@ -263,17 +268,17 @@ ORG_USER_ID=(./bin/utils/idam-get-user.sh befta.caseworker.1AAA@gmail.com | jq -
 
 ```
 update dbrefdata.professional_user
-set user_identifier = <ORG_USER_ID>
-where email_address = befta.caseworker.1AAA@gmail.com
+set user_identifier = '<ORG_USER_ID>'
+where email_address = 'befta.caseworker.1AAA@gmail.com'
 ```
 
 ```
 update dbuserprofile.user_profile
-set idam_id = befta.caseworker.1AAA@gmail.com, idam_status = 'ACTIVE'
-where email_address = befta.caseworker.1AAA@gmail.com
+set idam_id = 'ORG_USER_ID', idam_status = 'ACTIVE'
+where email_address = 'befta.caseworker.1AAA@gmail.com'
 ```
 
-7. Repeat 6 for any new users needed
+7. Repeat step 6 for any new users needed
 
 
 
