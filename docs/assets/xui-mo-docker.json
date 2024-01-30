@@ -1,0 +1,49 @@
+{
+  "protocol": "http",
+  "iss": "https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/realms/root/realms/hmcts",
+  "stub": false,
+  "services": {
+    "idamApi": "http://localhost:5000",
+    "idamWeb": "http://localhost:5000",
+    "rdProfessionalApi": "http://localhost:8090",
+    "feeAndPayApi": "http://payment-api-aat.service.core-compute-aat.internal",
+    "s2s": "http://localhost:4502",
+    "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
+    "ccdDataApi": "http://localhost:4452",
+    "caseAssignmentApi": "http://aac-manage-case-assignment-aat.service.core-compute-aat.internal",
+    "role_assignment": {
+      "roleApi": "http://localhost:4096"
+    }
+  },
+  "secrets": {
+    "rpx": {
+      "appinsights-instrumentationkey-mo": "c1205275-6fa0-43e9-9bc8-4fbc66a3e7f8",
+      "mo-s2s-client-secret": "OOOOOOOOOOOOOOOO",
+      "xui-oauth2-token": "OOOOOOOOOOOOOOOO",
+      "mo-webapp-redis-connection-string": "redis://spMZ1eMoUPtTJcBWlSuHFY2SajmDa6yfZAzCaKxPbls%3D@xui-webapp-aat.redis.cache.windows.net:6380?tls=true",
+      "google-analytics-key": "UA-124734893-4",
+      "launch-darkly-client-id": "645baeea2787d812993d9d70",
+      "system-user-name": "dummy",
+      "system-user-password": "dummy"
+    }
+  },
+  "feature": {
+    "appInsightsEnabled": true,
+    "proxyEnabled": false,
+    "secureCookieEnabled": false,
+    "termsAndConditionsEnabled": false,
+    "helmetEnabled": true,
+    "redisEnabled": false,
+    "oidcEnabled": false
+  },
+  "redis": {
+    "prefix": "activity:",
+    "ttl": 86400
+  },
+  "links": {
+    "manageCaseLink": "https://xui-webapp-aat.service.core-compute-aat.internal/cases",
+    "manageOrgLink": "https://xui-mo-webapp-aat.service.core-compute-aat.internal/"
+  },
+  "userTimeoutInSeconds": 660,
+  "caseTypes": "CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland"
+}
