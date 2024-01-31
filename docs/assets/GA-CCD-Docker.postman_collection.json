@@ -234,7 +234,7 @@
 					"variable": [
 						{
 							"key": "organisationId",
-							"value": "BJB81NK"
+							"value": "{{organisationIdentifier}}"
 						}
 					]
 				}
