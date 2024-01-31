@@ -83,8 +83,10 @@ Before proceeding further, please activate the user `befta.org.1@gmail.com` and 
 > Import the postman collection `GA-CCD-Docker.postman_collection.json` into Postman.
 
 1) Create an organisation
+   ![Create an organisation](images/create_organisation_success.png)
 2) Activate an organisation
-3) Add a user to the organisation
+   ![Activate an organisation](images/activate_organisation_success.png)
+3) Add a user to the organisation (please see the [instructions](../docs/update-user-identifier.md) to update the IDAM ID)
    1) Activate the user
    2) Update the user's IDAM ID
 
