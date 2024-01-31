@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "6618ebce-a707-422d-b70c-d7628cbdf2ae",
+		"_postman_id": "ba9600fb-5edd-49bf-9b88-49de929ec202",
 		"name": "GA-CCD-Docker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "123095",
-		"_collection_link": "https://interstellar-escape-194922.postman.co/workspace/VH~503332e0-4caa-4cc8-b1f7-55f3f9a4a3f7/collection/123095-6618ebce-a707-422d-b70c-d7628cbdf2ae?action=share&source=collection_link&creator=123095"
+		"_collection_link": "https://interstellar-escape-194922.postman.co/workspace/Group-Access~286c0400-9b18-4dce-b0ac-ccb080d518d5/collection/123095-ba9600fb-5edd-49bf-9b88-49de929ec202?action=share&source=collection_link&creator=123095"
 	},
 	"item": [
 		{
@@ -25,7 +25,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{idamBaseUrl}}/testing-support/accounts?email=befta.caseworker.1AAA@gmail.com",
+							"raw": "{{idamBaseUrl}}/testing-support/accounts?email=befta.org.1@gmail.com",
 							"host": [
 								"{{idamBaseUrl}}"
 							],
@@ -36,56 +36,7 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "befta.caseworker.1AAA@gmail.com"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add a user to organisation (internal)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{localPrdAdminBearerToken}}",
-								"type": "text"
-							},
-							{
-								"key": "ServiceAuthorization",
-								"value": "{{serviceToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"roles\": [\n        \"pui-user-manager\",\n        \"pui-finance-manager\",\n        \"pui-organisation-manager\",\n        \"pui-case-manager\",\n        \"pui-caa\",\n        \"caseworker\",\n        \"caseworker-divorce\",\n        \"caseworker-divorce-solicitor\",\n        \"caseworker-divorce-financialremedy\",\n        \"caseworker-divorce-financialremedy-solicitor\",\n        \"caseworker-probate\",\n        \"caseworker-ia\",\n        \"caseworker-probate-solicitor\",\n        \"caseworker-publiclaw\",\n        \"caseworker-ia-legalrep-solicitor\",\n        \"caseworker-publiclaw-solicitor\",\n        \"caseworker-civil\",\n        \"caseworker-civil-solicitor\",\n        \"caseworker-employment\",\n        \"caseworker-employment-legalrep-solicitor\"\n    ],\n    \"accessTypes\": [],\n    \"firstName\": \"Befta\",\n    \"lastName\": \"org1CaseworkerAAA\",\n    \"email\": \"befta.caseworker.1AAA@gmail.com\",\n    \"resendInvite\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{prdBaseUrl}}/refdata/internal/v1/organisations/:organisationId/users/",
-							"host": [
-								"{{prdBaseUrl}}"
-							],
-							"path": [
-								"refdata",
-								"internal",
-								"v1",
-								"organisations",
-								":organisationId",
-								"users",
-								""
-							],
-							"variable": [
-								{
-									"key": "organisationId",
-									"value": "BJB81NK"
+									"value": "befta.org.1@gmail.com"
 								}
 							]
 						}
@@ -140,6 +91,19 @@
 		},
 		{
 			"name": "Create an organisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"organisationIdentifier\", jsonData.organisationIdentifier);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -156,7 +120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"SolicitorOrg2\",\n    \"status\": \"PENDING\",\n    \"statusMessage\": \"SRA1234562134\",\n    \"sraId\": \"sraId1\",\n    \"sraRegulated\": \"false\",\n    \"companyNumber\": \"W999991\",\n    \"companyUrl\": \"www.null.com\",\n    \"superUser\": {\n        \"firstName\": \"Befta\",\n        \"lastName\": \"Org1Admin\",\n        \"email\": \"befta.org.1@gmail.com\"\n    },\n    \"paymentAccount\": [\n        \"PBA1234569\"\n    ],\n    \"contactInformation\": [\n        {\n            \"uprn\": \"string\",\n            \"addressLine1\": \"addressLine1\",\n            \"addressLine2\": \"addressLine2\",\n            \"addressLine3\": \"addressLine3\",\n            \"townCity\": \"Town\",\n            \"county\": \"County\",\n            \"country\": \"Country\",\n            \"postCode\": \"HA1 4ET\",\n            \"dxAddress\": [\n                {\n                    \"dxNumber\": \"dxNumber\",\n                    \"dxExchange\": \"dxExchange\"\n                }\n            ]\n        }\n    ],\n    \"orgType\": \"SOLICITOR_ORG\"\n}",
+					"raw": "{\n    \"name\": \"SolicitorOrg1\",\n    \"status\": \"PENDING\",\n    \"statusMessage\": \"SRA1234561111\",\n    \"sraId\": \"string\",\n    \"sraRegulated\": \"false\",\n    \"companyNumber\": \"W11111W\",\n    \"companyUrl\": \"www.org1.com\",\n    \"superUser\": {\n        \"firstName\": \"Befta\",\n        \"lastName\": \"Org1Admin\",\n        \"email\": \"befta.org.1@gmail.com\"\n    },\n    \"paymentAccount\": [\n        \"PBA1234561\"\n    ],\n    \"contactInformation\": [\n        {\n            \"uprn\": \"UPRN\",\n            \"addressLine1\": \"addressLine1\",\n            \"addressLine2\": \"addressLine2\",\n            \"addressLine3\": \"addressLine3\",\n            \"townCity\": \"Town\",\n            \"county\": \"County\",\n            \"country\": \"Country\",\n            \"postCode\": \"HA1 4ET\",\n            \"dxAddress\": [\n                {\n                    \"dxNumber\": \"dxNumber\",\n                    \"dxExchange\": \"dxExchange\"\n                }\n            ]\n        }\n    ],\n    \"orgType\": \"SOLICITOR_ORG\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -197,7 +161,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"SolicitorOrg1\",\n  \"status\": \"ACTIVE\",\n  \"statusMessage\": \"SRA1234562134\",\n  \"sraId\": \"string\",\n  \"sraRegulated\": \"false\",\n  \"companyNumber\": \"W99999W\",\n  \"companyUrl\": \"www.null.com\",\n  \"superUser\": {\n    \"firstName\": \"Befta\",\n    \"lastName\": \"Org1Admin\",\n    \"email\": \"befta.org.1@gmail.com\"\n  },\n  \"paymentAccount\": [\n    \"PBA1234567\"\n  ],\n  \"contactInformation\": [\n    {\n      \"uprn\": \"string\",\n      \"addressLine1\": \"addressLine1\",\n      \"addressLine2\": \"addressLine2\",\n      \"addressLine3\": \"addressLine3\",\n      \"townCity\": \"Town\",\n      \"county\": \"County\",\n      \"country\": \"Country\",\n      \"postCode\": \"HA1 4ET\",\n      \"dxAddress\": [\n        {\n          \"dxNumber\": \"dxNumber\",\n          \"dxExchange\": \"dxExchange\"\n        }\n      ]\n    }\n  ],\n  \"orgType\": \"SOLICITOR_ORG\"\n}",
+					"raw": "{\n    \"name\": \"SolicitorOrg1\",\n    \"status\": \"ACTIVE\",\n    \"statusMessage\": \"SRA1234561111\",\n    \"sraId\": \"string\",\n    \"sraRegulated\": \"false\",\n    \"companyNumber\": \"W11111W\",\n    \"companyUrl\": \"www.org1.com\",\n    \"superUser\": {\n        \"firstName\": \"Befta\",\n        \"lastName\": \"Org1Admin\",\n        \"email\": \"befta.org.1@gmail.com\"\n    },\n    \"paymentAccount\": [\n        \"PBA1234561\"\n    ],\n    \"contactInformation\": [\n        {\n            \"uprn\": \"UPRN\",\n            \"addressLine1\": \"addressLine1\",\n            \"addressLine2\": \"addressLine2\",\n            \"addressLine3\": \"addressLine3\",\n            \"townCity\": \"Town\",\n            \"county\": \"County\",\n            \"country\": \"Country\",\n            \"postCode\": \"HA1 4ET\",\n            \"dxAddress\": [\n                {\n                    \"dxNumber\": \"dxNumber\",\n                    \"dxExchange\": \"dxExchange\"\n                }\n            ]\n        }\n    ],\n    \"orgType\": \"SOLICITOR_ORG\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -219,12 +183,61 @@
 					"variable": [
 						{
 							"key": "organisationId",
-							"value": "BJB81NK",
+							"value": "{{organisationIdentifier}}",
 							"description": "This is the org id produced from the create organisation operation"
 						}
 					]
 				},
 				"description": "This will create an organisation with the super user \"befta.org.1@gmail.com\""
+			},
+			"response": []
+		},
+		{
+			"name": "Add a user to organisation (internal)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{localPrdAdminBearerToken}}",
+						"type": "text"
+					},
+					{
+						"key": "ServiceAuthorization",
+						"value": "{{serviceToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roles\": [\n        \"pui-user-manager\",\n        \"pui-finance-manager\",\n        \"pui-organisation-manager\",\n        \"pui-case-manager\",\n        \"pui-caa\",\n        \"caseworker\",\n        \"caseworker-befta_jurisdiction_1\",\n        \"caseworker-divorce\",\n        \"caseworker-divorce-solicitor\",\n        \"caseworker-divorce-financialremedy\",\n        \"caseworker-divorce-financialremedy-solicitor\",\n        \"caseworker-probate\",\n        \"caseworker-ia\",\n        \"caseworker-probate-solicitor\",\n        \"caseworker-publiclaw\",\n        \"caseworker-ia-legalrep-solicitor\",\n        \"caseworker-publiclaw-solicitor\",\n        \"caseworker-civil\",\n        \"caseworker-civil-solicitor\",\n        \"caseworker-employment\",\n        \"caseworker-employment-legalrep-solicitor\"\n    ],\n    \"accessTypes\": [],\n    \"firstName\": \"Befta\",\n    \"lastName\": \"org1CaseworkerAAA\",\n    \"email\": \"befta.caseworker.1AAA@gmail.com\",\n    \"resendInvite\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{prdBaseUrl}}/refdata/internal/v1/organisations/:organisationId/users/",
+					"host": [
+						"{{prdBaseUrl}}"
+					],
+					"path": [
+						"refdata",
+						"internal",
+						"v1",
+						"organisations",
+						":organisationId",
+						"users",
+						""
+					],
+					"variable": [
+						{
+							"key": "organisationId",
+							"value": "BJB81NK"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -414,6 +427,11 @@
 		{
 			"key": "idamBaseUrl",
 			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "organisationIdentifier",
+			"value": "",
 			"type": "string"
 		}
 	]
