@@ -37,6 +37,7 @@ docker build -t rse-idam-local:latest .
 
 ```bash
 ./ccd login
+./ccd init
 
 ./ccd compose up -d
 ./bin/add-users.sh
