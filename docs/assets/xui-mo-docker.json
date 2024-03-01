@@ -10,6 +10,7 @@
     "s2s": "http://localhost:4502",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
     "ccdDataApi": "http://localhost:4452",
+    "ccdDefinitionApi": "http://localhost:4451",
     "caseAssignmentApi": "http://aac-manage-case-assignment-aat.service.core-compute-aat.internal",
     "role_assignment": {
       "roleApi": "http://localhost:4096"
