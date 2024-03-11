@@ -61,8 +61,8 @@ services:
       FEE_AND_PAY_API: http://payment-api-aat.service.core-compute-aat.internal
       SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api:4452
       SERVICES_CCD_DEFINITION_STORE_API: http://ccd-definition-store-api:4451
-      # ACA_SERVICE_API_BASEURL: http://manage-case-assignment:4454
-      # SERVICES_MCA_PROXY_API: http://manage-case-assignment:4454
+      ACA_SERVICE_API_BASEURL: http://manage-case-assignment:4454
+      SERVICES_MCA_PROXY_API: http://manage-case-assignment:4454
       SERVICES_IDAM_ISS_URL: http://fr-am:8080/openam/oauth2/realms/root/realms/hmcts
       APPINSIGHTS_INSTRUMENTATIONKEY: "AAAAAAAAAAAAAAAC"
       IDAM_SECRET: "${BEFTA_OAUTH2_CLIENT_SECRET_OF_XUIWEBAPP:-OOOOOOOOOOOOOOOO}"

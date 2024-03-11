@@ -4,13 +4,13 @@ version: '2.4'
 
 services:
   ccd-user-profile-api:
-    image: "${CCD_USER_PROFILE_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/user-profile-api:${CCD_USER_PROFILE_API_TAG:-latest}"
+    image: '${CCD_USER_PROFILE_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/user-profile-api:${CCD_USER_PROFILE_API_TAG:-latest}'
     environment:
       USER_PROFILE_DB_HOST: ccd-shared-database
       USER_PROFILE_DB_PORT: 5432
-      USER_PROFILE_DB_USERNAME: "${DB_USERNAME}"
-      USER_PROFILE_DB_PASSWORD: "${DB_PASSWORD}"
-      USER_PROFILE_DB_USE_SSL: "${DB_USE_SSL}"
+      USER_PROFILE_DB_USERNAME: '${DB_USERNAME}'
+      USER_PROFILE_DB_PASSWORD: '${DB_PASSWORD}'
+      USER_PROFILE_DB_USE_SSL: '${DB_USE_SSL}'
       IDAM_S2S_URL: http://service-auth-provider-api:8080
       REFORM_SERVICE_NAME: ccd-user-profile-api
       REFORM_TEAM: ccd
@@ -29,22 +29,22 @@ services:
     environment:
       DEFINITION_STORE_DB_HOST: ccd-shared-database
       DEFINITION_STORE_DB_PORT: 5432
-      DEFINITION_STORE_DB_USERNAME: "${DB_USERNAME}"
-      DEFINITION_STORE_DB_PASSWORD: "${DB_PASSWORD}"
-      DEFINITION_STORE_DB_USE_SSL: "${DB_USE_SSL}"
-      DEFINITION_STORE_IDAM_KEY: "${IDAM_KEY_CCD_DEFINITION_STORE}"
+      DEFINITION_STORE_DB_USERNAME: '${DB_USERNAME}'
+      DEFINITION_STORE_DB_PASSWORD: '${DB_PASSWORD}'
+      DEFINITION_STORE_DB_USE_SSL: '${DB_USE_SSL}'
+      DEFINITION_STORE_IDAM_KEY: '${IDAM_KEY_CCD_DEFINITION_STORE}'
       DEFINITION_STORE_S2S_AUTHORISED_SERVICES: ccd_data,ccd_gw,ccd_admin,aac_manage_case_assignment,ccd_case_disposer,xui_webapp
       USER_PROFILE_HOST: http://ccd-user-profile-api:4453
-      IDAM_USER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+      IDAM_USER_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
       IDAM_S2S_URL: http://service-auth-provider-api:8080
       REFORM_SERVICE_NAME: ccd-definition-store-api
       REFORM_TEAM: ccd
       REFORM_ENVIRONMENT: local
       APPINSIGHTS_INSTRUMENTATIONKEY: key
-      ELASTIC_SEARCH_ENABLED: "${ES_ENABLED_DOCKER:-true}"
-      ELASTIC_SEARCH_HOST: "ccd-elasticsearch"
-      ELASTIC_SEARCH_FAIL_ON_IMPORT: "true"
-      ENABLE_CASE_GROUP_ACCESS: "true"
+      ELASTIC_SEARCH_ENABLED: '${ES_ENABLED_DOCKER:-true}'
+      ELASTIC_SEARCH_HOST: 'ccd-elasticsearch'
+      ELASTIC_SEARCH_FAIL_ON_IMPORT: 'true'
+      ENABLE_CASE_GROUP_ACCESS: 'true'
       # Uncomment this line to enable JVM debugging and uncomment the port mapping below
       # JAVA_TOOL_OPTIONS: '-XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
     ports:
@@ -52,9 +52,9 @@ services:
       # Uncomment this and the JAVA_TOOL_OPTIONS flag for JVM debugging
       # - 5005:5005
     depends_on:
-# Uncomment this line to enable ccd test stub service
-#     ccd-test-stubs-service:
-#       condition: service_started
+      # Uncomment this line to enable ccd test stub service
+      #     ccd-test-stubs-service:
+      #       condition: service_started
       rse-idam-simulator:
         condition: service_started
       ccd-shared-database:
@@ -66,41 +66,41 @@ services:
 
   ccd-data-store-api:
     # image: localdebug_ccd_data-store-api:pr-2347
-    image: hmctspublic.azurecr.io/ccd/definition-store-api:latest #ga-master
+    image: '${CCD_DATA_STORE_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/data-store-api:latest' #ga-master hmctspublic.azurecr.io/ccd/data-store-api:pr-2347
     environment:
       CASE_DOCUMENT_AM_URL: http://ccd-case-document-am-api:4455
       DATA_STORE_DB_HOST: ccd-shared-database
       DATA_STORE_DB_PORT: 5432
-      DATA_STORE_DB_USERNAME: "${DB_USERNAME}"
-      DATA_STORE_DB_PASSWORD: "${DB_PASSWORD}"
-      DATA_STORE_DB_USE_SSL: "${DB_USE_SSL}"
-      DATA_STORE_IDAM_KEY: "${IDAM_KEY_CCD_DATA_STORE}"
+      DATA_STORE_DB_USERNAME: '${DB_USERNAME}'
+      DATA_STORE_DB_PASSWORD: '${DB_PASSWORD}'
+      DATA_STORE_DB_USE_SSL: '${DB_USE_SSL}'
+      DATA_STORE_IDAM_KEY: '${IDAM_KEY_CCD_DATA_STORE}'
       DATA_STORE_TOKEN_SECRET: iuasbcuasdcbasdgcasdgcuysachjsacyasdgjcgasdj
       DATA_STORE_S2S_AUTHORISED_SERVICES: ccd_gw,ccd_gateway,fpl_case_service,ccd_data,ccd_ps,aac_manage_case_assignment,xui_webapp,ccd_case_document_am_api,am_role_assignment_service,ccd_next_hearing_date_updater,hmc_cft_hearing_service
       DEFINITION_STORE_HOST: http://ccd-definition-store-api:4451
       USER_PROFILE_HOST: http://ccd-user-profile-api:4453
-      IDAM_USER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}" # For backward compatibility with older images
-      IDAM_API_BASE_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-      IDAM_OIDC_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
+      IDAM_USER_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}' # For backward compatibility with older images
+      IDAM_API_BASE_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
+      IDAM_OIDC_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
       IDAM_S2S_URL: http://service-auth-provider-api:8080
       IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET: idam_data_store_client_secret
       REFORM_SERVICE_NAME: ccd-data-store-api
       REFORM_TEAM: ccd
       REFORM_ENVIRONMENT: local
       APPINSIGHTS_INSTRUMENTATIONKEY: key
-      ELASTIC_SEARCH_ENABLED: "${ES_ENABLED_DOCKER}"
+      ELASTIC_SEARCH_ENABLED: '${ES_ENABLED_DOCKER}'
       ELASTIC_SEARCH_HOSTS: ccd-elasticsearch:9200
-      ELASTIC_SEARCH_DATA_NODES_HOSTS: "http://ccd-elasticsearch:9200"
+      ELASTIC_SEARCH_DATA_NODES_HOSTS: 'http://ccd-elasticsearch:9200'
       CCD_DEFAULTPRINTURL: https://return-case-doc-ccd.nonprod.platform.hmcts.net/jurisdictions/:jid/case-types/:ctid/cases/:cid
-      CCD_DOCUMENT_URL_PATTERN: "${CCD_DOCUMENT_URL_PATTERN}"
-      ENABLE_ATTRIBUTE_BASED_ACCESS_CONTROL: "${ENABLE_ATTRIBUTE_BASED_ACCESS_CONTROL:-true}"
-      ENABLE_PSEUDO_ROLE_ASSIGNMENTS_GENERATION: "${ENABLE_PSEUDO_ROLE_ASSIGNMENTS_GENERATION:-true}"
-      ENABLE_PSEUDO_ACCESS_PROFILES_GENERATION: "${ENABLE_PSEUDO_ACCESS_PROFILES_GENERATION:-true}"
-      TESTING_SUPPORT_ENABLED: "${TESTING_SUPPORT_ENABLED:-true}"
-      MIGRATIONS_ENDPOINT_ENABLED: "${MIGRATIONS_ENDPOINT_ENABLED:-true}"
-      REFERENCE_DATA_API_URL: "${REFERENCE_DATA_API_URL:-http://ccd-test-stubs-service:5555}"
-      ROLE_ASSIGNMENT_URL: "${ROLE_ASSIGNMENT_URL:-http://am-role-assignment-service:4096}"
-      ENABLE_CASE_GROUP_ACCESS_FILTERING: "true"
+      CCD_DOCUMENT_URL_PATTERN: '${CCD_DOCUMENT_URL_PATTERN}'
+      ENABLE_ATTRIBUTE_BASED_ACCESS_CONTROL: '${ENABLE_ATTRIBUTE_BASED_ACCESS_CONTROL:-true}'
+      ENABLE_PSEUDO_ROLE_ASSIGNMENTS_GENERATION: '${ENABLE_PSEUDO_ROLE_ASSIGNMENTS_GENERATION:-true}'
+      ENABLE_PSEUDO_ACCESS_PROFILES_GENERATION: '${ENABLE_PSEUDO_ACCESS_PROFILES_GENERATION:-true}'
+      TESTING_SUPPORT_ENABLED: '${TESTING_SUPPORT_ENABLED:-true}'
+      MIGRATIONS_ENDPOINT_ENABLED: '${MIGRATIONS_ENDPOINT_ENABLED:-true}'
+      REFERENCE_DATA_API_URL: '${REFERENCE_DATA_API_URL:-http://ccd-test-stubs-service:5555}'
+      ROLE_ASSIGNMENT_URL: '${ROLE_ASSIGNMENT_URL:-http://am-role-assignment-service:4096}'
+      ENABLE_CASE_GROUP_ACCESS_FILTERING: 'true'
       # Uncomment this line to enable JVM debugging and uncomment the port mapping below
       # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006'
     ports:
@@ -108,9 +108,9 @@ services:
       # Uncomment this and the JAVA_TOOL_OPTIONS flag for JVM debugging
       # - 5006:5006
     depends_on:
-# Uncomment this line to enable ccd test stub service
-#     ccd-test-stubs-service:
-#       condition: service_started
+      # Uncomment this line to enable ccd test stub service
+      #     ccd-test-stubs-service:
+      #       condition: service_started
       rse-idam-simulator:
         condition: service_started
       ccd-shared-database:
@@ -123,34 +123,34 @@ services:
       - ccd-network
 
   am-role-assignment-service:
-    image: "${AM_ROLE_ASSIGNMENT_SERVICE_USE_LOCAL-hmctspublic.azurecr.io/}am/role-assignment-service:${AM_ROLE_ASSIGNMENT_SERVICE_TAG:-latest}"
+    image: '${AM_ROLE_ASSIGNMENT_SERVICE_USE_LOCAL-hmctspublic.azurecr.io/}am/role-assignment-service:${AM_ROLE_ASSIGNMENT_SERVICE_TAG:-latest}'
     environment:
-       ROLE_ASSIGNMENT_DB_HOST: ccd-shared-database
-       ROLE_ASSIGNMENT_DB_NAME: role_assignment
-       ROLE_ASSIGNMENT_DB_PORT: 5432
-       ROLE_ASSIGNMENT_DB_USERNAME: "${DB_USERNAME}"
-       ROLE_ASSIGNMENT_DB_PASSWORD: "${DB_PASSWORD}"
-       ROLE_ASSIGNMENT_DB_OPTIONS:
-       AM_ROLE_ASSIGNMENT_SERVICE_SECRET: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
-       LD_SDK_KEY:
-       ROLE_ASSIGNMENT_IDAM_KEY:
-       ROLE_ASSIGNMENT_TOKEN_SECRET:
-       ROLE_ASSIGNMENT_S2S_AUTHORISED_SERVICES: ccd_gw,am_role_assignment_service,am_org_role_mapping_service,wa_task_management_api,xui_webapp,ccd_data,aac_manage_case_assignment,hmc_cft_hearing_service
-       IDAM_USER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
-       IDAM_S2S_URL: http://service-auth-provider-api:8080
-       OPEN_ID_API_BASE_URI: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o"
-       OIDC_ISSUER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts"
-       ROLE_ASSIGNMENT_IDAM_CLIENT_ID: am_role_assignment
-       ROLE_ASSIGNMENT_IDAM_CLIENT_SECRET: am_role_assignment_secret
-       ROLE_ASSIGNMENT_IDAM_ADMIN_USERID: role.assignment.admin@gmail.com
-       ROLE_ASSIGNMENT_IDAM_ADMIN_PASSWORD: "${AM_ROLE_AADMINGMENT_ADMIN_PWD:-Pa55word11}"
-       ROLE_ASSIGNMENT_IDAM_ADMIN_SCOPE: profile openid roles search-user
-       CCD_DATA_STORE_URL: http://ccd-data-store-api:4452
-       AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY:
-       REFORM_SERVICE_NAME: am-role-assignment-service
-       REFORM_TEAM: am
-       REFORM_ENVIRONMENT: local
-       BYPASS_ORG_DROOL_RULE: "true"
+      ROLE_ASSIGNMENT_DB_HOST: ccd-shared-database
+      ROLE_ASSIGNMENT_DB_NAME: role_assignment
+      ROLE_ASSIGNMENT_DB_PORT: 5432
+      ROLE_ASSIGNMENT_DB_USERNAME: '${DB_USERNAME}'
+      ROLE_ASSIGNMENT_DB_PASSWORD: '${DB_PASSWORD}'
+      ROLE_ASSIGNMENT_DB_OPTIONS:
+      AM_ROLE_ASSIGNMENT_SERVICE_SECRET: '${IDAM_KEY_AM_ROLE_ASSIGNMENT}'
+      LD_SDK_KEY:
+      ROLE_ASSIGNMENT_IDAM_KEY:
+      ROLE_ASSIGNMENT_TOKEN_SECRET:
+      ROLE_ASSIGNMENT_S2S_AUTHORISED_SERVICES: ccd_gw,am_role_assignment_service,am_org_role_mapping_service,wa_task_management_api,xui_webapp,ccd_data,aac_manage_case_assignment,hmc_cft_hearing_service
+      IDAM_USER_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
+      IDAM_S2S_URL: http://service-auth-provider-api:8080
+      OPEN_ID_API_BASE_URI: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/o'
+      OIDC_ISSUER_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}/openam/oauth2/hmcts'
+      ROLE_ASSIGNMENT_IDAM_CLIENT_ID: am_role_assignment
+      ROLE_ASSIGNMENT_IDAM_CLIENT_SECRET: am_role_assignment_secret
+      ROLE_ASSIGNMENT_IDAM_ADMIN_USERID: role.assignment.admin@gmail.com
+      ROLE_ASSIGNMENT_IDAM_ADMIN_PASSWORD: '${AM_ROLE_AADMINGMENT_ADMIN_PWD:-Pa55word11}'
+      ROLE_ASSIGNMENT_IDAM_ADMIN_SCOPE: profile openid roles search-user
+      CCD_DATA_STORE_URL: http://ccd-data-store-api:4452
+      AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY:
+      REFORM_SERVICE_NAME: am-role-assignment-service
+      REFORM_TEAM: am
+      REFORM_ENVIRONMENT: local
+      BYPASS_ORG_DROOL_RULE: 'true'
       # Uncomment this line to enable JVM debugging and uncomment the port mapping below
       #  JAVA_TOOL_OPTIONS: -XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     ports:
@@ -158,9 +158,9 @@ services:
       # Uncomment this and the JAVA_TOOL_OPTIONS flag for JVM debugging
       # - 5005:5005
     depends_on:
-# Uncomment this line to enable ccd test stub service
-#     ccd-test-stubs-service:
-#       condition: service_started
+      # Uncomment this line to enable ccd test stub service
+      #     ccd-test-stubs-service:
+      #       condition: service_started
       rse-idam-simulator:
         condition: service_started
       ccd-shared-database:
@@ -171,7 +171,7 @@ services:
       - ccd-network
 
   service-auth-provider-api:
-    image: "hmctspublic.azurecr.io/rpe/service-auth-provider:latest"
+    image: 'hmctspublic.azurecr.io/rpe/service-auth-provider:latest'
     healthcheck:
       interval: 10s
       timeout: 10s
@@ -181,29 +181,29 @@ services:
     environment:
       SERVER_PORT: 8080
       JWT_KEY: wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
-      MICROSERVICEKEYS_AAC_MANAGE_CASE_ASSIGNMENT: "${BEFTA_S2S_CLIENT_SECRET_OF_AAC_MANAGE_CASE_ASSIGNMENT}"
-      MICROSERVICEKEYS_CCD_DATA: "${IDAM_KEY_CCD_DATA_STORE}"
-      MICROSERVICEKEYS_CCD_GW: "${IDAM_KEY_CCD_GATEWAY}"
-      MICROSERVICEKEYS_CCD_DEFINITION: "${IDAM_KEY_CCD_DEFINITION_STORE}"
-      MICROSERVICEKEYS_CCD_ADMIN: "${IDAM_KEY_CCD_ADMIN}"
-      MICROSERVICEKEYS_CCD_PS: "${IDAM_KEY_CCD_PS}"
-      MICROSERVICEKEYS_FPL_CASE_SERVICE: "${IDAM_KEY_FPL_CASE_SERVICE}"
-      MICROSERVICEKEYS_XUI_WEBAPP: "${BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP}"
-      MICROSERVICEKEYS_PAYMENT_APP: "${BEFTA_S2S_CLIENT_SECRET_OF_PAYMENT_APP}"
-      MICROSERVICEKEYS_CCD_CASE_DOCUMENT_AM_API : "${IDAM_KEY_CASE_DOCUMENT}"
-      MICROSERVICEKEYS_BULK_SCAN_PROCESSOR: "${IDAM_KEY_BULK_SCAN_PROCESSOR}"
-      MICROSERVICEKEYS_BULK_SCAN_ORCHESTRATOR: "${IDAM_KEY_BULK_SCAN_ORCHESTRATOR}"
-      MICROSERVICEKEYS_AM_ROLE_ASSIGNMENT_SERVICE: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
-      MICROSERVICEKEYS_HMC_CFT_HEARING_SERVICE: "${IDAM_KEY_CFT_HEARING_SERVICE}"
-      MICROSERVICEKEYS_API_GW: "${IDAM_KEY_API_GW}"
-      MICROSERVICEKEYS_HMC_HMI_INBOUND_ADAPTER: "${IDAM_KEY_API_HMI_INBOUND_ADAPTER}"
-      MICROSERVICEKEYS_CCD_CASE_DISPOSER: "${IDAM_KEY_CCD_CASE_DISPOSER}"
-      MICROSERVICEKEYS_TS_TRANSLATION_SERVICE: "${IDAM_KEY_TS_TRANSLATION_SERVICE}"
-      MICROSERVICEKEYS_CCD_NEXT_HEARING_DATE_UPDATER: "${IDAM_KEY_NEXT_HEARING_UPDATER}"
-      MICROSERVICEKEYS_RD_PROFESSIONAL_API: "${IDAM_KEY_CCD_GATEWAY}"
-      MICROSERVICEKEYS_RD_USER_PROFILE_API: "${IDAM_KEY_CCD_GATEWAY}"
-      MICROSERVICEKEYS_AM_ORG_ROLE_MAPPING_SERVICE: "${IDAM_KEY_AM_ORG_ROLE_MAPPING:-AAAAAAAAAAAAAAAA}"
-      TESTING_SUPPORT_ENABLED: "true"
+      MICROSERVICEKEYS_AAC_MANAGE_CASE_ASSIGNMENT: '${BEFTA_S2S_CLIENT_SECRET_OF_AAC_MANAGE_CASE_ASSIGNMENT}'
+      MICROSERVICEKEYS_CCD_DATA: '${IDAM_KEY_CCD_DATA_STORE}'
+      MICROSERVICEKEYS_CCD_GW: '${IDAM_KEY_CCD_GATEWAY}'
+      MICROSERVICEKEYS_CCD_DEFINITION: '${IDAM_KEY_CCD_DEFINITION_STORE}'
+      MICROSERVICEKEYS_CCD_ADMIN: '${IDAM_KEY_CCD_ADMIN}'
+      MICROSERVICEKEYS_CCD_PS: '${IDAM_KEY_CCD_PS}'
+      MICROSERVICEKEYS_FPL_CASE_SERVICE: '${IDAM_KEY_FPL_CASE_SERVICE}'
+      MICROSERVICEKEYS_XUI_WEBAPP: '${BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP}'
+      MICROSERVICEKEYS_PAYMENT_APP: '${BEFTA_S2S_CLIENT_SECRET_OF_PAYMENT_APP}'
+      MICROSERVICEKEYS_CCD_CASE_DOCUMENT_AM_API: '${IDAM_KEY_CASE_DOCUMENT}'
+      MICROSERVICEKEYS_BULK_SCAN_PROCESSOR: '${IDAM_KEY_BULK_SCAN_PROCESSOR}'
+      MICROSERVICEKEYS_BULK_SCAN_ORCHESTRATOR: '${IDAM_KEY_BULK_SCAN_ORCHESTRATOR}'
+      MICROSERVICEKEYS_AM_ROLE_ASSIGNMENT_SERVICE: '${IDAM_KEY_AM_ROLE_ASSIGNMENT}'
+      MICROSERVICEKEYS_HMC_CFT_HEARING_SERVICE: '${IDAM_KEY_CFT_HEARING_SERVICE}'
+      MICROSERVICEKEYS_API_GW: '${IDAM_KEY_API_GW}'
+      MICROSERVICEKEYS_HMC_HMI_INBOUND_ADAPTER: '${IDAM_KEY_API_HMI_INBOUND_ADAPTER}'
+      MICROSERVICEKEYS_CCD_CASE_DISPOSER: '${IDAM_KEY_CCD_CASE_DISPOSER}'
+      MICROSERVICEKEYS_TS_TRANSLATION_SERVICE: '${IDAM_KEY_TS_TRANSLATION_SERVICE}'
+      MICROSERVICEKEYS_CCD_NEXT_HEARING_DATE_UPDATER: '${IDAM_KEY_NEXT_HEARING_UPDATER}'
+      MICROSERVICEKEYS_RD_PROFESSIONAL_API: '${IDAM_KEY_CCD_GATEWAY}'
+      MICROSERVICEKEYS_RD_USER_PROFILE_API: '${IDAM_KEY_CCD_GATEWAY}'
+      MICROSERVICEKEYS_AM_ORG_ROLE_MAPPING_SERVICE: '${IDAM_KEY_AM_ORG_ROLE_MAPPING:-AAAAAAAAAAAAAAAA}'
+      TESTING_SUPPORT_ENABLED: 'true'
     networks:
       - ccd-network
 
@@ -221,6 +221,29 @@ services:
       - 5050:5432
     volumes:
       - ccd-docker-ccd-shared-database-data:/var/lib/postgresql/data
+    networks:
+      - ccd-network
+
+  manage-case-assignment:
+    image: 'hmctspublic.azurecr.io/aac/manage-case-assignment:${MANAGE_CASE_ASSIGNMENT_TAG:-latest}'
+    container_name: manage-case-assignment
+    environment:
+      SERVER_PORT: 4454
+      IDAM_API_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
+      IDAM_OIDC_URL: '${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}'
+      S2S_URL: http://service-auth-provider-api:8080
+      MANAGE_CASE_S2S_KEY: 'AAAAAAAAAAAAAAAA'
+      MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data
+      CCD_DATA_STORE_API_BASE_URL: http://ccd-data-store-api:4452
+      CCD_DEFINITION_STORE_API_BASE_URL: http://ccd-definition-store-api:4451
+      PRD_HOST: http://rd-professional-api:8090
+      NOTIFY_MCA_API_KEY: 'notify-test-api-key'
+      # Uncomment this line to enable JVM debugging and uncomment the port mapping below
+      # JAVA_TOOL_OPTIONS: '-XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0 -XX:+UseConcMarkSweepGC -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
+    ports:
+      - 4454:4454
+      # Uncomment this and the JAVA_TOOL_OPTIONS flag for JVM debugging
+      # - 5005:5005
     networks:
       - ccd-network
 

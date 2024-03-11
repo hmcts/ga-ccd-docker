@@ -11,7 +11,7 @@
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
     "ccdDataApi": "http://localhost:4452",
     "ccdDefinitionApi": "http://localhost:4451",
-    "caseAssignmentApi": "http://aac-manage-case-assignment-aat.service.core-compute-aat.internal",
+    "caseAssignmentApi": "http://localhost:4454",
     "role_assignment": {
       "roleApi": "http://localhost:4096"
     }
@@ -46,5 +46,5 @@
     "manageOrgLink": "https://xui-mo-webapp-aat.service.core-compute-aat.internal/"
   },
   "userTimeoutInSeconds": 660,
-  "caseTypes": "CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland"
+  "caseTypes": "BEFTA_CASETYPE_1_1"
 }
