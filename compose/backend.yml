@@ -25,7 +25,7 @@ services:
 
   ccd-definition-store-api:
     #image: "${CCD_DEFINITION_STORE_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/definition-store-api:${CCD_DEFINITION_STORE_API_TAG:-latest}"
-    image: hmctspublic.azurecr.io/ccd/definition-store-api:pr-1439 # ga-master
+    image: hmctspublic.azurecr.io/ccd/definition-store-api:latest # ga-master
     environment:
       DEFINITION_STORE_DB_HOST: ccd-shared-database
       DEFINITION_STORE_DB_PORT: 5432
@@ -66,7 +66,7 @@ services:
 
   ccd-data-store-api:
     # image: localdebug_ccd_data-store-api:pr-2347
-    image: "${CCD_DATA_STORE_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/data-store-api:pr-2347" #ga-master
+    image: hmctspublic.azurecr.io/ccd/definition-store-api:latest #ga-master
     environment:
       CASE_DOCUMENT_AM_URL: http://ccd-case-document-am-api:4455
       DATA_STORE_DB_HOST: ccd-shared-database

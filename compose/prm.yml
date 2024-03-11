@@ -5,7 +5,7 @@ version: '2.4'
 services:
   rd-professional-api:
     image: hmctspublic.azurecr.io/rd/professional-api:pr-1542 # ga-master
-    # image: localdebug_rd-professional-api:latest
+    #image: localdebug_rd-professional-api:latest
     container_name: rd-professional-api
     environment:
       POSTGRES_USERNAME: "${DB_USERNAME}"
@@ -24,14 +24,15 @@ services:
       ACCOUNT_NAME: devstoreaccount1 # dummy value
       ACCOUNT_KEY: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # dummy value
       PROFESSIONAL_API_S2S_SECRET: "${IDAM_KEY_CCD_GATEWAY}"
-      # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
+      PRD_S2S_AUTHORISED_SERVICES: rd_professional_api,rd_user_profile_api,xui_webapp,finrem_payment_service,fpl_case_service,iac,aac_manage_case_assignment,divorce_frontend,am_org_role_mapping_service
+      #JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     ports:
       - 8090:8090
-      # - 5005:5005
+      #- 5005:5005
     depends_on:
       - ccd-shared-database
     networks:
@@ -39,6 +40,7 @@ services:
 
   rd-user-profile-api:
     image: hmctspublic.azurecr.io/rd/user-profile-api:latest
+    #image: localdebug_rd-user-api:latest
     container_name: rd-user-profile-api
     environment:
       POSTGRES_USERNAME: "${DB_USERNAME}"
@@ -52,21 +54,22 @@ services:
       AUTH_IDAM_CLIENT_BASEURL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       S2S_URL: http://service-auth-provider-api:8080
       USER_PROFILE_API_S2S_SECRET: "${IDAM_KEY_CCD_GATEWAY}"
-      # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006'
+      #JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006'
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     ports:
       - 8091:8091
-      # - 5006:5006
+      #- 5006:5006
     depends_on:
       - ccd-shared-database
     networks:
       - ccd-network
 
   am-org-role-mapping-service:
-    image: hmctspublic.azurecr.io/am/org-role-mapping-service:latest
+    image: hmctspublic.azurecr.io/am/org-role-mapping-service:pr-1769
+    # image: localdebug_amorg:latest
     container_name: am-org-role-mapping-service
     environment:
       IDAM_S2S_URL: http://service-auth-provider-api:8080
@@ -91,7 +94,7 @@ services:
       CRD_SUBSCRIPTION_NAME: rd-caseworker-subscription-aat
       JRD_TOPIC_NAME: rd-judicial-topic-aat
       JRD_SUBSCRIPTION_NAME: rd-judicial-subscription-aat
-      ORG_ROLE_MAPPING_IDAM_ADMIN_USERID: orm.admin@hmcts.NET
+      ORG_ROLE_MAPPING_IDAM_ADMIN_USERID: "local-prd-admin@gmail.com"
       ORG_ROLE_MAPPING_DB_PORT: 5432
       ORG_ROLE_MAPPING_DB_NAME: org_role_mapping
       ORG_ROLE_MAPPING_DB_HOST: ccd-shared-database
@@ -102,8 +105,20 @@ services:
       TESTING_SUPPORT_ENABLED: "true"
       APPLICATION_LOGGING_LEVEL: INFO
       RUN_LD_ON_STARTUP: "true"
+      PROFESSIONAL_REF_APP_URL: "http://rd-professional-api:8090"
+      PROFESSIONAL_REFDATA_PAGE_SIZE: 2
+      PROFESSIONAL_SCHEDULING_ENABLED: "true"
+      CRON_P2_ORGS_STALE_PROFILES: "* * 0 * * *"
+      CRON_P3_ORG_CHANGES: "* * 0 * * *"
+      USER_REFRESH_CRON: "*/2 * * * * *"
+      TOLERANCE: 10
+      AM_ROLE_ASSIGNMENT_SERVICE_SECRET: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
+      AM_ORG_ROLE_MAPPING_SERVICE_SECRET: "${IDAM_KEY_AM_ORG_ROLE_MAPPING}"
+      ORG_ROLE_MAPPING_IDAM_ADMIN_PASSWORD: "Pa55word11"
+      # JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5010'
     ports:
       - 4098:4098
+      # - 5010:5010
     networks:
       - ccd-network
     depends_on:
