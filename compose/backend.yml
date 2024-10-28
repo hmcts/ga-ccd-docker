@@ -139,7 +139,7 @@ services:
        ROLE_ASSIGNMENT_IDAM_ADMIN_USERID: role.assignment.admin@gmail.com
        ROLE_ASSIGNMENT_IDAM_ADMIN_PASSWORD: "${AM_ROLE_AADMINGMENT_ADMIN_PWD:-Pa55word11}"
        ROLE_ASSIGNMENT_IDAM_ADMIN_SCOPE: profile openid roles search-user
-       CCD_DATA_STORE_URL: http://ccd-data-store-api:4452
+       CCD_DATA_STORE_URL: http://host.docker.internal:4452
        AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY:
        REFORM_SERVICE_NAME: am-role-assignment-service
        REFORM_TEAM: am
@@ -159,8 +159,8 @@ services:
         condition: service_started
       ccd-shared-database:
         condition: service_started
-      ccd-data-store-api:
-        condition: service_started
+      # ccd-data-store-api:
+      #   condition: service_started
     networks:
       - ccd-network
 
