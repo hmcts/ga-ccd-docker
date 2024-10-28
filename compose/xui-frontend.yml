@@ -1,6 +1,3 @@
----
-version: '2.4'
-
 services:
   xui-manage-cases:
     image: "${XUI_MANAGE_CASES_USE_LOCAL-hmctspublic.azurecr.io/}xui/webapp:${XUI_MANAGE_CASES_TAG:-latest}"
@@ -36,9 +33,11 @@ services:
       HEALTH_CCD_DATA_API: http://ccd-data-store-api:4452/health
 
       APPINSIGHTS_INSTRUMENTATIONKEY: TESTVAR
+      APPINSIGHTS_CONNECTION_STRING: TESTVAR
       IDAM_SECRET: "${BEFTA_OAUTH2_CLIENT_SECRET_OF_XUIWEBAPP:-OOOOOOOOOOOOOOOO}"
       S2S_SECRET: "${BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP:-OOOOOOOOOOOOOOOO}"
       LAUNCH_DARKLY_CLIENT_ID: "${XUI_LAUNCH_DARKLY_CLIENT_ID:-1}"
+    restart: on-failure:5
 
     ports:
       - 3455:3000

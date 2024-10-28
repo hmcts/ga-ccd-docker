@@ -1,6 +1,3 @@
----
-version: '2.4'
-
 services:
   ccd-case-document-am-api:
     image: "${CCD_CASE_DOCUMENT_AM_API_USE_LOCAL-hmctspublic.azurecr.io/}ccd/case-document-am-api:${CCD_CASE_DOCUMENT_AM_API_TAG:-latest}"

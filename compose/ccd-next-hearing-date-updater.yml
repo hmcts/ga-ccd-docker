@@ -1,6 +1,3 @@
----
-version: '2.4'
-
 services:
   ccd-next-hearing-date-updater:
     image: "${CCD_NEXT_HEARING_DATE_UPDATER_USE_LOCAL-hmctspublic.azurecr.io/}ccd/next-hearing-date-updater:${CCD_NEXT_HEARING_DATE_UPDATER_TAG:-latest}"

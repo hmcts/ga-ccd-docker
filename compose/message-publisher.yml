@@ -1,6 +1,3 @@
----
-version: '2.4'
-
 services:
   ccd-message-publisher:
     image: "${CCD_MESSAGE_PUBLISHER_USE_LOCAL-hmctspublic.azurecr.io/}ccd/message-publisher:${CCD_MESSAGE_PUBLISHER_TAG:-latest}"

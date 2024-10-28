@@ -1,6 +1,3 @@
----
-version: '2.4'
-
 services:
   ccd-case-disposer:
     image: "${CCD_CASE_DISPOSER_USE_LOCAL-hmctspublic.azurecr.io/}ccd/case-disposer:${CCD_CASE_DISPOSER_TAG:-latest}"

@@ -1,6 +1,3 @@
----
-version: "3"
-
 services:
   rse-idam-simulator:
     image: "hmctspublic.azurecr.io/hmcts/rse/rse-idam-simulator:latest"
