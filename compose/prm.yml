@@ -57,23 +57,23 @@ services:
       - ccd-network
 
   am-org-role-mapping-service:
-    image: hmctspublic.azurecr.io/am/org-role-mapping-service:latest
+    image: hmctspublic.azurecr.io/am/org-role-mapping-service:pr-1737
     container_name: am-org-role-mapping-service
     environment:
+      ORM_ENV: pr
       IDAM_S2S_URL: http://service-auth-provider-api:8080
       IDAM_USER_URL: http://rse-idam-simulator:5000
       OIDC_ISSUER_URL: http://rse-idam-simulator:5000/openam/oauth2/hmcts
       OPEN_ID_API_BASE_URI: "http://rse-idam-simulator:5000/o"
       S2S_URL: http://service-auth-provider-api:8080
+      AM_ORG_ROLE_MAPPING_SERVICE_SECRET: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
       AM_ORG_ROLE_MAPPING_S2S_AUTHORISED_SERVICES: ccd_gw,am_org_role_mapping_service,am_role_assignment_service,xui_webapp,am_role_assignment_refresh_batch
-      ROLE_ASSIGNMENT_APP_URL: http://am-role-assignment-service:4096
-      JUDICIAL_BOOKING_APP_URL: http://am-judicial-booking-service-aat.service.core-compute-aat.internal
+      ROLE_ASSIGNMENT_APP_URL:  http://host.docker.internal:4096 # http://am-role-assignment-service:4096
+      JUDICIAL_BOOKING_APP_URL: http://host.docker.internal:4097 # http://am-judicial-booking-service:4097
       CASE_WORKER_REF_APP_URL: http://rd-caseworker-ref-api-aat.service.core-compute-aat.internal
       JUDICIAL_REF_APP_URL: http://rd-judicial-api-aat.service.core-compute-aat.internal
-      JUDICIAL_REF_APP_V2_ACTIVE: "false"
-      JUDICIAL_REF_APP_V2_FILTER_AUTHS_BY_APP_ID: "false"
-      LAUNCH_DARKLY_ENV: aat
-      LD_SDK_KEY: sdk-28c71191-54b1-4d81-8c8d-add52b134bc7
+      PROFESSIONAL_REF_APP_URL: http://host.docker.internal:5601 # http://rd-professional-api:8090
+      CCD_DEF_STORE_APP_URL: http://ccd-definition-store-api:4451
       AMQP_HOST: rd-servicebus-aat.servicebus.windows.net
       AMQP_SHARED_ACCESS_KEY_NAME: SendAndListenSharedAccessKey
       AMQP_ENABLED: "false"
@@ -82,25 +82,71 @@ services:
       CRD_SUBSCRIPTION_NAME: rd-caseworker-subscription-aat
       JRD_TOPIC_NAME: rd-judicial-topic-aat
       JRD_SUBSCRIPTION_NAME: rd-judicial-subscription-aat
+      ORM_IDAM_CLIENT_ID: am_role_assignment
+      ORG_ROLE_MAPPING_IDAM_CLIENT_SECRET: am_role_assignment_secret
       ORG_ROLE_MAPPING_IDAM_ADMIN_USERID: orm.admin@hmcts.NET
+      ORG_ROLE_MAPPING_IDAM_ADMIN_PASSWORD: "${AM_ROLE_AADMINGMENT_ADMIN_PWD:-Pa55word11}"
+      ORG_ROLE_MAPPING_IDAM_ADMIN_SCOPE: profile openid roles search-user
       ORG_ROLE_MAPPING_DB_PORT: 5432
       ORG_ROLE_MAPPING_DB_NAME: org_role_mapping
       ORG_ROLE_MAPPING_DB_HOST: ccd-shared-database
       ORG_ROLE_MAPPING_DB_USERNAME: "${DB_USERNAME}"
       ORG_ROLE_MAPPING_DB_PASSWORD: "${DB_PASSWORD}"
       ORG_ROLE_MAPPING_DB_OPTIONS: "?stringtype=unspecified"
+      PROFESSIONAL_SCHEDULING_ENABLED: true
+      CRON_P1_FIND_CASE_DEFINITION_CHANGES: "*/30 * * * * *"
+      CRON_P2_ORGS_STALE_PROFILES: "*/30 * * * 1 *"
+      CRON_P3_ORG_CHANGES: "*/30 * * * 1 *"
+      CRON_P4_USERS_STALE_ORGS: "*/30 * * * 1 *"
+      CRON_P5_USER_CHANGES: "*/30 * * * 1 *"
+      # USER_REFRESH_CRON: "*/5 * * * 1 *"
+      # USER_REFRESH_CLEANUP_CRON: "0 * * * 1 *"
+      # USER_REFRESH_CLEANUP_DAYS: 90
+      # RETRY_ONE_INTERVAL_MIN: 2
+      # RETRY_TWO_INTERVAL_MIN: 15
+      # RETRY_THREE_INTERVAL_MIN: 60
+      REFRESH_JOB_INCLUDE_BOOKINGS: false
+      REFRESH_BULK_ASSIGNMENT_INCLUDE_BOOKINGS: false
       REFRESH_JOB:
       TESTING_SUPPORT_ENABLED: "true"
-      APPLICATION_LOGGING_LEVEL: INFO
-      RUN_LD_ON_STARTUP: "true"
+      APPLICATION_LOGGING_LEVEL: DEBUG
     ports:
       - 4098:4098
     networks:
       - ccd-network
     depends_on:
-      - ccd-shared-database
+      ccd-shared-database:
+        condition: service_started
+      rse-idam-simulator:
+        condition: service_started
     links:
       - ccd-shared-database
+
+  am-judicial-booking-service:
+    image: "hmctspublic.azurecr.io/am/judicial-booking-service:latest"
+    container_name: am-judicial-booking-service
+    environment:
+      JBS_ENV: pr
+      JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST: ccd-shared-database
+      JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE: judicial_booking
+      JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT: 5432
+      JUDICIAL_BOOKING_SERVICE_POSTGRES_USER: "${DB_USERNAME}"
+      JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS: "${DB_PASSWORD}"
+      JUDICIAL_BOOKING_SERVICE_DB_OPTIONS: "?stringtype=unspecified"
+      AM_JUDICIAL_BOOKING_SERVICE_SECRET: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
+      AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES: am_judicial_booking_service,am_org_role_mapping_service,xui_webapp
+      IDAM_USER_URL: http://rse-idam-simulator:5000
+      IDAM_S2S_URL: http://service-auth-provider-api:8080
+      OPEN_ID_API_BASE_URI: "http://rse-idam-simulator:5000/o"
+      OIDC_ISSUER_URL: http://rse-idam-simulator:5000/openam/oauth2/hmcts
+      AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY:
+    ports:
+      - 4097:4097
+    networks:
+      - ccd-network
+    depends_on:
+      ccd-shared-database:
+        condition: service_started
 
 networks:
   ccd-network:

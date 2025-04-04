@@ -32,7 +32,7 @@ services:
       DEFINITION_STORE_DB_PASSWORD: "${DB_PASSWORD}"
       DEFINITION_STORE_DB_USE_SSL: "${DB_USE_SSL}"
       DEFINITION_STORE_IDAM_KEY: "${IDAM_KEY_CCD_DEFINITION_STORE}"
-      DEFINITION_STORE_S2S_AUTHORISED_SERVICES: ccd_data,ccd_gw,ccd_admin,aac_manage_case_assignment,ccd_case_disposer
+      DEFINITION_STORE_S2S_AUTHORISED_SERVICES: ccd_data,ccd_gw,ccd_admin,aac_manage_case_assignment,ccd_case_disposer,am_org_role_mapping_service
       USER_PROFILE_HOST: http://ccd-user-profile-api:4453
       IDAM_USER_URL: "${IDAM_STUB_SERVICE_NAME:-http://rse-idam-simulator:5000}"
       IDAM_S2S_URL: http://service-auth-provider-api:8080
@@ -43,6 +43,7 @@ services:
       ELASTIC_SEARCH_ENABLED: "${ES_ENABLED_DOCKER:-true}"
       ELASTIC_SEARCH_HOST: "ccd-elasticsearch"
       ELASTIC_SEARCH_FAIL_ON_IMPORT: "true"
+      ENABLE_CASE_GROUP_ACCESS: true
       # Uncomment this line to enable JVM debugging and uncomment the port mapping below
       # JAVA_TOOL_OPTIONS: '-XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
     ports:
@@ -121,6 +122,7 @@ services:
   am-role-assignment-service:
     image: "${AM_ROLE_ASSIGNMENT_SERVICE_USE_LOCAL-hmctspublic.azurecr.io/}am/role-assignment-service:${AM_ROLE_ASSIGNMENT_SERVICE_TAG:-latest}"
     environment:
+       RAS_ENV: pr
        ROLE_ASSIGNMENT_DB_HOST: ccd-shared-database
        ROLE_ASSIGNMENT_DB_NAME: role_assignment
        ROLE_ASSIGNMENT_DB_PORT: 5432
@@ -190,6 +192,8 @@ services:
       MICROSERVICEKEYS_BULK_SCAN_PROCESSOR: "${IDAM_KEY_BULK_SCAN_PROCESSOR}"
       MICROSERVICEKEYS_BULK_SCAN_ORCHESTRATOR: "${IDAM_KEY_BULK_SCAN_ORCHESTRATOR}"
       MICROSERVICEKEYS_AM_ROLE_ASSIGNMENT_SERVICE: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
+      MICROSERVICEKEYS_AM_ORG_ROLE_MAPPING_SERVICE: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
+      MICROSERVICEKEYS_AM_JUDICIAL_BOOKING_SERVICE: "${IDAM_KEY_AM_ROLE_ASSIGNMENT}"
       MICROSERVICEKEYS_HMC_CFT_HEARING_SERVICE: "${IDAM_KEY_CFT_HEARING_SERVICE}"
       MICROSERVICEKEYS_API_GW: "${IDAM_KEY_API_GW}"
       MICROSERVICEKEYS_HMC_HMI_INBOUND_ADAPTER: "${IDAM_KEY_API_HMI_INBOUND_ADAPTER}"
